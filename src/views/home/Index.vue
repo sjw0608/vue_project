@@ -8,8 +8,11 @@
 
 <script>
 import * as type from "@/store/action-types";
-import { mapActions, mapState } from "vuex";
+// import { mapActions, mapState, createNamespacedHelpers } from "vuex";
+import { createNamespacedHelpers } from "vuex";
 import * as validate from "@/utils/validate";
+
+let { mapActions, mapState } = createNamespacedHelpers("user");
 export default {
   computed: {
     ...mapState(["bannerList"])
