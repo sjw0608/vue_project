@@ -1,36 +1,23 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios'
-import { baseURL } from '@/config'
+// import { baseUrL } from '@/config'
+import store from '../store/index'
+import * as types from '../store/action-types'
+
+const baseUrl = 'http://172.16.6.201:8093/collegeIdealReport'
 
 const CancelToken = axios.CancelToken
 
 class Http {
     constructor() {
-        this.baseURL = baseURL
+        this.baseURL = baseUrl
         this.timeout = 3000
-        this.pending = []
-    }
-    // 防止重复请求
-    cancelPending(config) {
-        const pending = this.pending
-        pending.forEach((item, index) => {
-            if (config) {
-                if (item.UrlPath === config.url) {
-                    item.Cancel() // 取消请求
-                    pending.splice(index, 1) // 移除当前请求记录
-                }
-            } else {
-                item.Cancel() // 取消请求
-                pending.splice(index, 1) // 移除当前请求记录
-            }
-        })
     }
     // 配置请求和响应拦截器
-    setInterceptor(instance) {
+    setInterceptor(instance, url) {
         instance.interceptors.request.use(config => {
-            this.cancelPending(config)
             config.cancelToken = new CancelToken(res => {
-                this.pending.push({ 'UrlPath': config.url, 'Cancel': res })
+                store.commit(types.SET_REQUEST_TOKEN, { 'UrlPath': config.url, 'Cancel': res })
             })
             return config
         })
@@ -42,6 +29,7 @@ class Http {
                 return Promise.reject(res);
             }
         }, err => {
+            delete this.queue[url]
             return Promise.reject(err);
         })
     }
@@ -56,7 +44,7 @@ class Http {
     request(options) {
         const opts = this.mergeOptions(options)
         const instance = axios.create()
-        this.setInterceptor(instance)
+        this.setInterceptor(instance, opts.url)
         // 当调用axios.requset时 内不会创建一个axios的实例 并且给这个实例传入配置参数
         return instance(opts)
     }

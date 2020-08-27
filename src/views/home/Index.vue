@@ -8,11 +8,11 @@
 
 <script>
 import * as type from "@/store/action-types";
-// import { mapActions, mapState, createNamespacedHelpers } from "vuex";
-import { createNamespacedHelpers } from "vuex";
-import * as validate from "@/utils/validate";
+import { mapActions, mapState } from "vuex";
+import { getNewList } from "@/api/public";
+// import { createNamespacedHelpers } from "vuex";
 
-let { mapActions, mapState } = createNamespacedHelpers("user");
+// let { mapActions, mapState } = createNamespacedHelpers("user");
 export default {
   computed: {
     ...mapState(["bannerList"])
@@ -21,8 +21,11 @@ export default {
     ...mapActions([type.SET_BANNER_LIST])
   },
   mounted() {
-    // this[type.SET_BANNER_LIST]();
-    console.log(validate);
+    this[type.SET_BANNER_LIST]();
+    this[type.SET_BANNER_LIST]();
+    this[type.SET_BANNER_LIST]();
+    getNewList();
+    getNewList();
   }
 };
 </script>

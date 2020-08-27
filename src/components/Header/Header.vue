@@ -10,7 +10,7 @@
         :router="true"
       >
         <el-menu-item index="/">首页</el-menu-item>
-        <el-menu-item index="/">发表文章</el-menu-item>
+        <el-menu-item index="/login">发表文章</el-menu-item>
       </el-menu>
     </el-col>
     <el-col :span="6">

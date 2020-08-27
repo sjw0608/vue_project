@@ -1,2 +1,4 @@
 // eg
-export const getBannerList = "/public";
+export const getBannerList = "/app/basicsBanner/show";
+
+export const newList = "/app/newsinfo/list";

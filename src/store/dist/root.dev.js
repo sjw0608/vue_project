@@ -7,9 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var type = _interopRequireWildcard(require("./action-types"));
+var types = _interopRequireWildcard(require("./action-types"));
 
 var _public = require("@/api/public");
+
+var _mutations;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -17,11 +19,20 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 var _default = {
   state: {
-    bannerList: []
+    bannerList: [],
+    ajaxTokens: []
   },
-  mutations: _defineProperty({}, type.SET_BANNER_LIST, function _callee(state, payload) {
+  mutations: (_mutations = {}, _defineProperty(_mutations, types.SET_BANNER_LIST, function _callee(state, payload) {
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -34,8 +45,22 @@ var _default = {
         }
       }
     });
-  }),
-  actions: _defineProperty({}, type.SET_BANNER_LIST, function _callee2(_ref) {
+  }), _defineProperty(_mutations, types.CLEAR_REQUSET_TOKEN, function (state) {
+    state.ajaxTokens = [];
+  }), _defineProperty(_mutations, types.SET_REQUEST_TOKEN, function (state, payload) {
+    //取消重复请求
+    var ajaxTokens = state.ajaxTokens;
+    var find = ajaxTokens.filter(function (item) {
+      return item.UrlPath === payload.UrlPath;
+    });
+
+    if (find.length) {
+      payload.Cancel();
+    } else {
+      state.ajaxTokens = [].concat(_toConsumableArray(state.ajaxTokens), [payload]);
+    }
+  }), _mutations),
+  actions: _defineProperty({}, types.SET_BANNER_LIST, function _callee2(_ref) {
     var commit, bannerList;
     return regeneratorRuntime.async(function _callee2$(_context2) {
       while (1) {
@@ -48,7 +73,7 @@ var _default = {
 
           case 4:
             bannerList = _context2.sent;
-            commit(type.SET_BANNER_LIST, bannerList);
+            commit(types.SET_BANNER_LIST, bannerList);
             _context2.next = 11;
             break;
 
