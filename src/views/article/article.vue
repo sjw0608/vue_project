@@ -19,7 +19,10 @@ export default {
     return {
       content: "",
       defaultMsg: "测试",
-      config: {}
+      config: {
+        initialFrameWidth: "100%",
+        initialFrameHeight: 300
+      }
     };
   },
   mounted() {
