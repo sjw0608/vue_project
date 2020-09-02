@@ -6,6 +6,11 @@ const homeRouter = [
         component: () => import(/*webpackChunkName:"home"*/ "@/views/home/Index.vue")
     },
     {
+        path: '/article',
+        name: 'Article',
+        component: () => import(/*webpackChunkName:"home"*/ "@/views/article/article.vue")
+    },
+    {
         path: '*',
         component: () => import(/*webpackChunkName:"home"*/ "@/views/home/Index.vue")
     }
