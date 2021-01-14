@@ -4,13 +4,12 @@ import axios from 'axios'
 import store from '../store/index'
 import * as types from '../store/action-types'
 
-const baseUrl = 'http://172.16.6.201:8093/collegeIdealReport'
+// const baseUrl = 'http://172.16.5.150:3000'
 
 const CancelToken = axios.CancelToken
-
 class Http {
     constructor() {
-        this.baseURL = baseUrl
+        // this.baseURL = baseUrl
         this.timeout = 3000
     }
     // 配置请求和响应拦截器
@@ -25,7 +24,6 @@ class Http {
             if (res.status === 200) {
                 return Promise.resolve(res.data);
             } else {
-                // switch(){ // todo ... } 
                 return Promise.reject(res);
             }
         }, err => {
@@ -42,6 +40,9 @@ class Http {
         }
     }
     request(options) {
+        if (localStorage.getItem('token')) {
+            axios.defaults.headers['TOKEN'] = localStorage.getItem('token')
+        }
         const opts = this.mergeOptions(options)
         const instance = axios.create()
         this.setInterceptor(instance, opts.url)
@@ -49,6 +50,7 @@ class Http {
         return instance(opts)
     }
     get(url, config = {}) {
+        console.log(url, config)
         return this.request({
             method: 'get',
             url: url,

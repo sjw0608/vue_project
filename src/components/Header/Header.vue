@@ -22,21 +22,45 @@
           text-color="#fff"
           active-text-color="fff"
         >
-          <el-menu-item index="login">
+          <el-menu-item index="login" v-if="!isLogin">
             <router-link to="/login">登录</router-link>
           </el-menu-item>
-          <el-menu-item index="reg">
+          <el-menu-item index="reg" v-if="!isLogin">
             <router-link to="/reg">注册</router-link>
           </el-menu-item>
-          <el-submenu index="profile">
-            <template slot="title">张三</template>
-            <el-menu-item index="logout">退出登录</el-menu-item>
+          <el-submenu index="profile" v-if="isLogin">
+            <template slot="title">{{ userInfo.username }}</template>
+            <el-menu-item index="logout" @click="layoutLogin">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
       </div>
     </el-col>
   </el-row>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      userInfo: localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : {},
+    };
+  },
+  // watch:{},
+  computed: {
+    isLogin() {
+      return Object.keys(this.userInfo).length;
+    },
+  },
+  methods:{
+    layoutLogin(){
+      this.userInfo = {}
+      localStorage.clear()
+      this.$router.push('/login')
+    }
+  }
+};
+</script>
 <style lang="scss">
 .header-row {
   height: 100%;

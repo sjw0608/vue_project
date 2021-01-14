@@ -7,25 +7,14 @@
 </template>
 
 <script>
-import * as type from "@/store/action-types";
-import { mapActions, mapState } from "vuex";
-import { getNewList } from "@/api/public";
-// import { createNamespacedHelpers } from "vuex";
-
-// let { mapActions, mapState } = createNamespacedHelpers("user");
 export default {
-  computed: {
-    ...mapState(["bannerList"])
+  data(){
+    return{
+      id:localStorage.getItem("id") || ''
+    }
   },
-  methods: {
-    ...mapActions([type.SET_BANNER_LIST])
-  },
-  mounted() {
-    this[type.SET_BANNER_LIST]();
-    this[type.SET_BANNER_LIST]();
-    this[type.SET_BANNER_LIST]();
-    getNewList();
-    getNewList();
+  methods:{
+    
   }
 };
 </script>
